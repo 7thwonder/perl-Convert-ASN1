@@ -116,11 +116,23 @@ value and the offset from UTC in seconds.
 
 =item bigint
 
+This option controls the big integer class into which the objects will be
+blessed.  The default is Math::BigInt.
+
+=over 4
+
+=item bigint-class
+
 If during encoding an value greater than 32 bits is discovered and
 is not already a big integer object, then the value will first be
-converted into a big integer object. This option controls the big
-integer class into which the objects will be blessed. The default
-is to use Math::BigInt
+converted into a big integer object.
+
+=item raw
+
+If this option is specified, size in not checked, there is no conversion
+and the integer is treated as if it is already encoded.
+
+=back
 
 =back
 
@@ -153,10 +165,25 @@ The value returned will be the raw encoding as extracted from the PDU.
 
 =item bigint
 
+While decoding, this options controls how integers are handled.  Math::BigInt
+is the default.  Either the name of a class that can handle big integers or
+raw may be specified.
+
+=over 4
+
+=item bigint-class
+
 If during decoding any big integers are discovered (integers greater
 than 32 bits), they will be decoded into big integer objects. This option
 controls the big integer class into which the objects will be blessed.
 The default is to use Math::BigInt.
+
+=item raw
+
+If this option is specified, no conversion is performed and the encoded
+integer is passed as is regardless of size.
+
+=back
 
 =item null
 

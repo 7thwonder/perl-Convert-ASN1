@@ -85,7 +85,13 @@ sub _enc_boolean {
 sub _enc_integer {
 # 0      1    2       3     4     5      6
 # $optn, $op, $stash, $var, $buf, $loop, $path
-  if (abs($_[3]) >= 2**31) {
+  if ($_[0]->{encode_bigint} && $_[0]->{encode_bigint} eq 'raw') {
+    my $os = $_[3];
+    my $len = length($os);
+    $_[4] .= asn_encode_length($len);
+    $_[4] .= $os;
+  }
+  elsif (abs($_[3]) >= 2**31) {
     my $os = i2osp($_[3], ref($_[3]) || $_[0]->{encode_bigint} || 'Math::BigInt');
     my $len = length $os;
     my $msb = (vec($os, 0, 8) & 0x80) ? 0 : 255;
